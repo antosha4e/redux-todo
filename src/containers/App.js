@@ -1,40 +1,33 @@
-import React, { Component, PropTypes } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import Header from '../components/Header'
-import MainSection from '../components/MainSection'
-import * as TodoActions from '../actions/todos'
+import React, { Component } from 'react';
+import AddTodo from '../components/AddTodo';
+import TodoList from '../components/TodoList';
+import Footer from '../components/Footer';
 
-class App extends Component {
+export default class App extends Component {
   render() {
-    const { todos, actions } = this.props
     return (
-      <div>
-        <Header addTodo={actions.addTodo} />
-        <MainSection todos={todos} actions={actions} />
-      </div>
-    )
+        <div>
+          <AddTodo
+              onAddClick={text =>
+            console.log('add todo', text)
+          } />
+          <TodoList
+              todos={[{
+            text: 'Use Redux',
+            completed: true
+          }, {
+            text: 'Learn to connect it to React',
+            completed: false
+          }]}
+              onTodoClick={todo =>
+            console.log('todo clicked', todo)
+          } />
+          <Footer
+              filter='SHOW_ALL'
+              onFilterChange={filter =>
+            console.log('filter change', filter)
+          } />
+        </div>
+    );
   }
 }
-
-App.propTypes = {
-  todos: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired
-}
-
-function mapStateToProps(state) {
-  return {
-    todos: state.todos
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(TodoActions, dispatch)
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
