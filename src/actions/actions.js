@@ -2,32 +2,40 @@
  * action types
  */
 
-export const ADD_TODO = 'ADD_TODO';
-export const COMPLETE_TODO = 'COMPLETE_TODO';
-export const SET_VISIBILITY_FILTER = 'SET_VISIBILITY_FILTER';
+//тип действия
+export const SELECT_REDDIT = 'SELECT_REDDIT';
+export const INVALIDATE_REDDIT = 'INVALIDATE_REDDIT';
 
-/*
- * other constants
- */
+export const REQUEST_POSTS = 'REQUEST_POSTS';
+export const RECEIVE_POSTS = 'RECEIVE_POSTS';
 
-export const VisibilityFilters = {
-  SHOW_ALL: 'SHOW_ALL',
-  SHOW_COMPLETED: 'SHOW_COMPLETED',
-  SHOW_ACTIVE: 'SHOW_ACTIVE'
-};
-
-/*
- * action creators
- */
-
-export function addTodo(text) {
-  return { type: ADD_TODO, text };
+//генератор действия
+export function selectReddit(reddit) {
+  return {
+    type: SELECT_REDDIT,
+    reddit
+  };
 }
 
-export function completeTodo(index) {
-  return { type: COMPLETE_TODO, index };
+export function invalidateReddit(reddit) {
+  return {
+    type: INVALIDATE_REDDIT,
+    reddit
+  };
 }
 
-export function setVisibilityFilter(filter) {
-  return { type: SET_VISIBILITY_FILTER, filter };
+export function requestPosts(reddit) {
+    return {
+        type: REQUEST_POSTS,
+        reddit
+    };
+}
+
+export function receivePosts(reddit, json) {
+    return {
+        type: RECEIVE_POSTS,
+        reddit,
+        posts: json.data.children.map(child => child.data),
+        receivedAt: Date.now()
+    };
 }
